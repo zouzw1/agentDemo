@@ -1,5 +1,7 @@
 package com.example.demo.graph.controller;
 
+import com.alibaba.cloud.ai.agent.Agent;
+import com.alibaba.cloud.ai.dashscope.agent.DashScopeAgent;
 import com.alibaba.cloud.ai.graph.CompileConfig;
 import com.alibaba.cloud.ai.graph.CompiledGraph;
 import com.alibaba.cloud.ai.graph.OverAllState;
@@ -23,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -76,6 +77,7 @@ public class DemoController {
 
     @PostMapping("/test")
     public String test(@RequestBody PromptRequest userPrompt) throws GraphRunnerException {
+
         ReactAgent agent = ReactAgent.builder()
                 .name("agent")
                 .model(chatModel)
@@ -99,8 +101,8 @@ public class DemoController {
         DemoAgent demoAgent = new DemoAgent(chatModel,tools);
 //        CompiledGraph compiledGraph = demoAgent.getCompiledGraph();
         StateGraph graph = demoAgent.getGraph();
-        var memory = new MemorySaver();
-        var compileConfig = CompileConfig.builder()
+        MemorySaver memory = new MemorySaver();
+        CompileConfig compileConfig = CompileConfig.builder()
                 .saverConfig(SaverConfig.builder()
                         .register(memory)
                         .build())

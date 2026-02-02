@@ -21,8 +21,6 @@
         <java.version>17</java.version>
         <!-- ✅ Spring Cloud 2023.0.3 (Lettuce SR3) — 兼容 Boot 3.3.x -->
         <spring-cloud.version>2023.0.3</spring-cloud.version>
-        <!-- ✅ Alibaba AI Starter 依赖版本（与 Spring AI 1.0.x 兼容） -->
-        <alibaba-ai.version>1.1.0.0-RC2</alibaba-ai.version>
     </properties>
 
     <dependencies>
@@ -30,12 +28,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <!-- ✅ Spring Cloud 基础（必须，提供上下文、Bootstrap等） -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter</artifactId>
         </dependency>
 
         <!-- ✅ 外部 Tomcat 部署支持 -->
@@ -55,17 +47,28 @@
         <!-- ✅ Alibaba AI Starter（官方维护，替代已废弃的 spring-ai-alibaba-*） -->
         <!-- 注意：需在阿里云 Maven 仓库中配置（见下方说明） -->
         <!-- Spring AI Alibaba Agent Framework -->
-        <dependency>
-            <groupId>com.alibaba.cloud.ai</groupId>
-            <artifactId>spring-ai-alibaba-agent-framework</artifactId>
-            <version>1.1.0.0-RC2</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.cloud.ai</groupId>-->
+<!--            <artifactId>spring-ai-alibaba-agent-framework</artifactId>-->
+<!--            <version>1.1.0.0-RC2</version>-->
+<!--        </dependency>-->
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-agent-framework</artifactId>
+                <version>1.1.2.0</version>
+            </dependency>
 
         <!-- DashScope ChatModel 支持（如果使用其他模型，请跳转 Spring AI 文档选择对应的 starter） -->
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.cloud.ai</groupId>-->
+<!--            <artifactId>spring-ai-alibaba-starter-dashscope</artifactId>-->
+<!--            <version>1.1.0.0-RC2</version>-->
+<!--        </dependency>-->
+
         <dependency>
             <groupId>com.alibaba.cloud.ai</groupId>
             <artifactId>spring-ai-alibaba-starter-dashscope</artifactId>
-            <version>1.1.0.0-RC2</version>
+            <version>1.1.2.1</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -76,19 +79,6 @@
 
     </dependencies>
 
-    <!-- ✅ Spring Cloud BOM 导入 -->
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
     <build>
         <plugins>
             <plugin>
@@ -97,33 +87,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <!-- ✅ 必须添加阿里云公共仓库（因为 Alibaba AI Starter 未发布到 Maven Central） -->
-    <repositories>
-        <repository>
-            <id>aliyun-public</id>
-            <name>Aliyun Repository</name>
-            <url>https://maven.aliyun.com/repository/public</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <!-- ✅ 如果需要 snapshot 版本（如 1.0.1-SNAPSHOT），启用以下仓库 -->
-        <!--
-        <repository>
-            <id>aliyun-snapshots</id>
-            <name>Aliyun Snapshots</name>
-            <url>https://maven.aliyun.com/repository/snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        -->
-    </repositories>
 </project>
