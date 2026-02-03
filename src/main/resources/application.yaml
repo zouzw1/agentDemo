@@ -3,8 +3,5 @@ spring:
     name: demo
   ai:
     dashscope:
-      api-key: sk-e149a15431ec48ceb6a839cab679762e  # 替换为真实 key
+      api-key:   # 替换为真实 key
       base-url: https://dashscope.aliyuncs.com/compatible-mode/v1
-#      agent:
-#        api-key: sk-e149a15431ec48ceb6a839cab679762e  # 替换为真实 key
-#        base-url: https://dashscope.aliyuncs.com/compatible-mode/v1
