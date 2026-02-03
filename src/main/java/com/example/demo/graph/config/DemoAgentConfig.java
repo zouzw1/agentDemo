@@ -53,13 +53,9 @@ public class DemoAgentConfig {
     public List<SkillMetadata> getSkills() throws IOException {
         ClasspathSkillRegistry classpathSkillRegistry = ClasspathSkillRegistry.builder()
                 .build();
-        SpringAiSkillAdvisor.Builder builder = SpringAiSkillAdvisor.builder();
-        builder.skillRegistry(classpathSkillRegistry);
-        SpringAiSkillAdvisor springAiSkillAdvisor = builder.build();
-        int skillCount = springAiSkillAdvisor.getSkillCount();
-        System.out.printf(skillCount + "");
-        List<SkillMetadata> skillMetadata = springAiSkillAdvisor.listSkills();
-        System.out.printf(skillMetadata.toString());
-        return skillMetadata;
+        SpringAiSkillAdvisor springAiSkillAdvisor = SpringAiSkillAdvisor.builder()
+                .skillRegistry(classpathSkillRegistry)
+                .build();
+        return springAiSkillAdvisor.listSkills();
     }
 }
