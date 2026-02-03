@@ -134,7 +134,7 @@ public class DemoController {
      * Content-Type: application/json
      *
      * {
-     *   "userPrompt": "根据技能列表的执行技能，按照技能的描述按步骤执行，如果缺少参数请自行模拟。并将每个技能Instructions中每一步执行出入参保存，最后返回执行流程和结果"
+     *   "userPrompt": "根据技能列表的执行技能，按照技能的描述按步骤执行，如果缺少参数请自行模拟。并将每个技能Instructions中每一步执行出入参保存，最后返回执行流程和结果，使用中文回复"
      * }
      * @param userPrompt
      * @return
