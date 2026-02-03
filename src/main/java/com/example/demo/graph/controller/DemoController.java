@@ -11,11 +11,15 @@ import com.alibaba.cloud.ai.graph.checkpoint.config.SaverConfig;
 import com.alibaba.cloud.ai.graph.checkpoint.savers.MemorySaver;
 import com.alibaba.cloud.ai.graph.exception.GraphRunnerException;
 import com.alibaba.cloud.ai.graph.exception.GraphStateException;
+import com.alibaba.cloud.ai.graph.skills.SkillMetadata;
+import com.alibaba.cloud.ai.graph.skills.SkillPromptConstants;
+import com.alibaba.cloud.ai.graph.skills.registry.classpath.ClasspathSkillRegistry;
 import com.example.demo.graph.agent.DemoAgent;
 import com.example.demo.graph.dto.PromptRequest;
 import jakarta.annotation.Resource;
 import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.model.ChatModel;
+import org.springframework.ai.chat.prompt.SystemPromptTemplate;
 import org.springframework.ai.tool.ToolCallback;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,6 +42,9 @@ public class DemoController {
 
     @Resource
     private List<ToolCallback> tools;
+
+    @Resource
+    private List<SkillMetadata> skills;
 
     String SKILLS_MD_PROMPT = """
             我需要将下面的解题思路改写成一个Skills提供给LLM，让它可以正确的解决用户的问题。 其中需要获取信息可以通过以下MCP调用。如果需要导出数据可以执行以下脚本完成。
@@ -74,7 +81,13 @@ public class DemoController {
 //            """;*/
 
 
-
+    String SKILLS_PROMPT = """
+        -你是一名技能分析师，需要完成以下工作：
+        1.列出所有技能
+        2.使用列出技能中第一个技能
+        3.将技能中的每一步调用出入参都进行保存
+        4.中文形式输出     
+    """;
     @PostMapping("/test")
     public String test(@RequestBody PromptRequest userPrompt) throws GraphRunnerException {
 
@@ -111,5 +124,36 @@ public class DemoController {
         Optional<OverAllState> userPrompt1 = compiledGraph.invoke(Map.of("userPrompt", userPrompt.getUserPrompt()));
         System.out.printf(userPrompt1.toString());
         return "";
+    }
+
+
+    /**
+     * 测试技能执行
+     * 调用案例：
+     * POST http://localhost:8080/demo/testSkills
+     * Content-Type: application/json
+     *
+     * {
+     *   "userPrompt": "根据技能列表的执行技能，按照技能的描述按步骤执行，如果缺少参数请自行模拟。并将每个技能Instructions中每一步执行出入参保存，最后返回执行流程和结果"
+     * }
+     * @param userPrompt
+     * @return
+     * @throws GraphStateException
+     * @throws GraphRunnerException
+     * @throws IOException
+     */
+    @PostMapping("/testSkills")
+    public String testSkills(@RequestBody PromptRequest userPrompt) throws GraphStateException, GraphRunnerException, IOException {
+
+        ReactAgent agent = ReactAgent.builder()
+                .name("agent")
+                .model(chatModel)
+//                .systemPrompt("You are a helpful assistant")
+                .systemPrompt("You are a helpful assistant, you have some skills , skills list: " + skills)
+                .saver(new MemorySaver())
+                .build();
+
+        AssistantMessage call = agent.call(userPrompt.getUserPrompt());
+        return call.getText();
     }
 }

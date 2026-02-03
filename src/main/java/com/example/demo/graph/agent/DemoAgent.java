@@ -6,6 +6,7 @@ import com.alibaba.cloud.ai.graph.action.AsyncNodeAction;
 import com.alibaba.cloud.ai.graph.agent.BaseAgent;
 import com.alibaba.cloud.ai.graph.exception.GraphStateException;
 import com.alibaba.cloud.ai.graph.internal.node.Node;
+import com.alibaba.cloud.ai.graph.skills.registry.classpath.ClasspathSkillRegistry;
 import com.example.demo.graph.node.Content2MardDownNode;
 import com.example.demo.graph.node.ExecutionNode;
 import jakarta.annotation.Resource;
