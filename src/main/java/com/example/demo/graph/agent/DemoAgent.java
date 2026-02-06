@@ -4,6 +4,8 @@ package com.example.demo.graph.agent;
 import com.alibaba.cloud.ai.graph.*;
 import com.alibaba.cloud.ai.graph.action.AsyncNodeAction;
 import com.alibaba.cloud.ai.graph.agent.BaseAgent;
+import com.alibaba.cloud.ai.graph.checkpoint.config.SaverConfig;
+import com.alibaba.cloud.ai.graph.checkpoint.savers.MemorySaver;
 import com.alibaba.cloud.ai.graph.exception.GraphStateException;
 import com.alibaba.cloud.ai.graph.internal.node.Node;
 import com.alibaba.cloud.ai.graph.skills.registry.classpath.ClasspathSkillRegistry;
@@ -59,7 +61,7 @@ public class DemoAgent extends BaseAgent {
     }
 
 
-    /*public CompiledGraph getCompiledGraph() throws GraphStateException {
+    public CompiledGraph getCompiledGraph() throws GraphStateException {
         var memory = new MemorySaver();
         var compileConfig = CompileConfig.builder()
                 .saverConfig(SaverConfig.builder()
@@ -69,6 +71,6 @@ public class DemoAgent extends BaseAgent {
                 .build();
 
         return this.graph.compile(compileConfig);
-    }*/
+    }
 
 }

@@ -1,15 +1,24 @@
 package com.example.demo.graph.tool;
 
+import com.alibaba.cloud.ai.graph.agent.ReactAgent;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.model.ToolContext;
 
 import java.util.function.BiFunction;
 
 @Slf4j
-public class WeatherTool implements BiFunction<String, ToolContext, String> {
+public class loadToolTool implements BiFunction<String, ToolContext, String> {
+
+    @Resource
+    private ReactAgent reactAgentBean;
+
+
     @Override
     public String apply(String city, ToolContext toolContext) {
-        log.info("use: WeatherTool");
-        return "It's always sunny in " + city + "!";
+
+
+        return null;
+
     }
 }
